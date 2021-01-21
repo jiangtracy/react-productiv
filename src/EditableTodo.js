@@ -35,7 +35,10 @@ function EditableTodo({todo, update, remove}) {
   function renderTodoComp() {
     return isEditing ? 
       (
-        <TodoForm />
+        <TodoForm 
+          initialFormData={todo}
+          handleSave={handleSave}
+        />
       ) : 
       (
         <div className="mb-3">
@@ -51,7 +54,11 @@ function EditableTodo({todo, update, remove}) {
               Del
             </button>
           </div>
-          <Todo />
+          <Todo 
+            title={todo.title}
+            description={todo.description}
+            priority={todo.priority}
+          />
         </div>
       )
   }
