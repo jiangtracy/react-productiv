@@ -19,6 +19,7 @@ import TodoForm from "./TodoForm";
 function TodoApp({initialTodos}) {
   const [todos, setTodos] = useState(initialTodos);
 
+  //{} not needed
   /** add a new todo to list */
   function create(newTodo) {
     setTodos(prevTodos => {
@@ -26,10 +27,27 @@ function TodoApp({initialTodos}) {
         ...prevTodos,
         {
           ...newTodo,
-          id: uuid()
+          id: uuid(),
+          isComplete: false,
         }
       ]
     });
+  }
+
+  /* Toggle a todo between complete/incomplete */
+
+  function complete(todo) {
+    setTodos( prevTodos => {
+      const otherTodos = prevTodos.filter((t) => t.id !== todo.id);
+
+      return [
+        ...otherTodos,
+        {
+          ...todo,
+          isComplete: !todo.isComplete,
+        }
+      ]
+    })
   }
 
   /** update a todo with updatedTodo */
@@ -58,7 +76,7 @@ function TodoApp({initialTodos}) {
    **/  
   function renderTodoList() {
     return todos.length > 0 ? (
-      <EditableTodoList todos={todos} update={update} remove={remove} />
+      <EditableTodoList todos={todos} update={update} remove={remove} complete={complete}/>
     ) : (
       <span className="text-muted col-md-6">You have no todos.</span>
     );
@@ -68,7 +86,9 @@ function TodoApp({initialTodos}) {
    * no todo message otherwise
    */
   function renderTopTodo() {
-    return todos.length > 0 ? (
+    const atLeastOneIncomplete = todos.some(t => t.isComplete === false);
+
+    return (todos.length > 0 && atLeastOneIncomplete) ? (
       <TopTodo todos={todos}/>
     ) : (
       <span className="text-muted">No todos yet!</span>
@@ -89,7 +109,6 @@ function TodoApp({initialTodos}) {
 
             <section>
               <h3 className="mb-3">Add Nü</h3>
-              {/* FIXME */}
               <TodoForm handleSave={create}/>
 
             </section>

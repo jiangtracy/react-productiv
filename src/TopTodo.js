@@ -12,14 +12,12 @@ import Todo from "./Todo";
 
 function TopTodo({todos}) {
   // lowest-priority # is the highest priority
-  let top = todos.reduce(
-      (acc, cur) => cur.priority < acc.priority ? cur : acc, todos[0]);
-  
-  const { title, description, priority } = top;
+  let top = todos
+    .filter(t => t.isComplete === false)
+    .reduce(
+      (acc, cur) => cur.priority < acc.priority ? cur : acc);
   return <Todo
-            title={title}
-            description={description}
-            priority={priority}
+            todo={top}
           />;
 }
 

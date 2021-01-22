@@ -7,11 +7,12 @@ import EditableTodo from "./EditableTodo";
  * - todos: array of [ todo, ... ]
  * - update(): fn to call to update a todo
  * - remove(): fn to call to remove a todo
+ * - complete(): fn to call to toggle todo completion
  *
  * TodoApp -> EditableTodoList -> [ EditableTodo, ... ]
  */
 
-function EditableTodoList({todos, update, remove}) {
+function EditableTodoList({todos, update, remove, complete}) {
   
   /** Renders a list of EditableTodos for each todo object */  
   function renderTodos() {
@@ -21,6 +22,7 @@ function EditableTodoList({todos, update, remove}) {
         todo={todo}
         update={update}
         remove={remove}
+        complete={complete}
       />
     ));
     return todoComponents;

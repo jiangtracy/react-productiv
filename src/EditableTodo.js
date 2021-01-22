@@ -8,11 +8,12 @@ import TodoForm from "./TodoForm";
  * - todo
  * - update(): fn to call to update a todo
  * - remove(): fn to call to remove a todo
+ * - complete(): fn to call to toggle todo completion
  *
  * EditableTodoList -> EditableTodo -> { Todo, TodoForm }
  */
 
-function EditableTodo({todo, update, remove}) {
+function EditableTodo({todo, update, remove, complete}) {
 
   const [isEditing, setIsEditing] = useState(false);
 
@@ -20,6 +21,12 @@ function EditableTodo({todo, update, remove}) {
   function toggleEdit() { 
     setIsEditing( prev => !prev );
   }
+
+  /* Toggle if this todo is completed */
+  function handleCompletion() {
+    complete(todo);
+  }
+
 
   /** Call remove fn passed to this. */
   function handleDelete(evt) { 
@@ -32,6 +39,8 @@ function EditableTodo({todo, update, remove}) {
     update(formData);
   }
 
+
+  /* Renders the todo component */
   function renderTodoComp() {
     return isEditing ? 
       (
@@ -55,9 +64,8 @@ function EditableTodo({todo, update, remove}) {
             </button>
           </div>
           <Todo 
-            title={todo.title}
-            description={todo.description}
-            priority={todo.priority}
+            todo={todo}
+            complete={handleCompletion}
           />
         </div>
       )
